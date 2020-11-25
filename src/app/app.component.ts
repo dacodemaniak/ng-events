@@ -7,10 +7,12 @@ import { EventInterface } from './core/interfaces/event-interface';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  private pTitle = 'events';
-  subtitle = 'My awesome Angular Application'
+  private pTitle = 'events'
+  public subtitle = 'My awesome Angular Application'
 
   public events: Array<EventInterface> = new Array<EventInterface>()
+
+  public showAll = false
 
   public constructor() {
     this.events.push({
@@ -42,5 +44,17 @@ export class AppComponent {
       subtitle: 'Dynamically update the wiew',
       date: new Date()
     })
+  }
+
+  public updateShowAll($event): void {
+    this.showAll = $event
+  }
+
+  public displayedEvents(): number {
+    if (this.showAll) {
+      return this.events.length
+    }
+
+    return this.events.filter((event) => event.date).length
   }
 }
