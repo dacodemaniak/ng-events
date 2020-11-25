@@ -3,3 +3,14 @@
 </p>
 
 <h1>{{ subtitle }}</h1>
+
+<ul>
+    <li *ngFor="let event of events">
+      <span *ngIf="event.date">
+        {{ event.title }} {{ event.date | date: 'yyyy-MM-dd'}}
+      </span>
+    </li>
+</ul>
+<button type="button" (click)="addEvent()">
+  Add Event
+</button>
