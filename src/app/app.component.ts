@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, ViewChild } from '@angular/core';
 import { UserComponent } from './core/components/user/user.component';
 import { EventInterface } from './core/interfaces/event-interface';
 
@@ -7,7 +7,7 @@ import { EventInterface } from './core/interfaces/event-interface';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit, AfterViewInit {
+export class AppComponent implements AfterViewInit {
   @ViewChild(UserComponent) child
 
   private pTitle = 'events'

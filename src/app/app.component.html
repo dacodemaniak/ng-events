@@ -7,6 +7,7 @@
 <app-event-filter-bar [displayedEvents]="displayedEvents()" [eventsNumber]="events.length" (buttonClickEvent)="updateShowAll($event)"></app-event-filter-bar>
 
 <h2>Liste des événements</h2>
+<h3>{{user.lastName}}</h3>
 <ul>
     <ng-container *ngFor="let event of events">
       <li *ngIf="event.date || showAll">
