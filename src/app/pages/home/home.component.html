@@ -1,0 +1,20 @@
+<p>
+    {{ title }} is running !
+  </p>
+  
+  <h1>{{ subtitle }}</h1>
+  
+  <app-event-filter-bar [displayedEvents]="displayedEvents()" [eventsNumber]="events.length" (buttonClickEvent)="updateShowAll($event)"></app-event-filter-bar>
+  
+  <h2>Liste des événements</h2>
+  
+  <ul>
+      <ng-container *ngFor="let event of events">
+        <li *ngIf="event.date || showAll">
+            {{ event.title }} {{ event.date | date: 'yyyy-MM-dd'}}
+        </li>
+      </ng-container>
+  </ul>
+  <button type="button" (click)="addEvent()">
+    Add Event
+  </button>
