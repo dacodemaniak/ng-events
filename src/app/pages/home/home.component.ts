@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { EventInterface } from './../../core/interfaces/event-interface';
 
 @Component({
@@ -14,8 +15,10 @@ export class HomeComponent implements OnInit {
 
   public showAll = false
 
-  
-  public constructor() {
+  public constructor(private router: Router) {}
+
+
+  ngOnInit(): void {
     this.events.push({
       title: 'Journée 1 : Component and Template',
       subtitle: 'Components',
@@ -30,10 +33,6 @@ export class HomeComponent implements OnInit {
       subtitle: 'Injection de dépendances'
     })
   }
-
-
-  ngOnInit(): void {
-  }
   public get title(): string {
     return this.pTitle
   }
@@ -43,11 +42,7 @@ export class HomeComponent implements OnInit {
   }
 
   public addEvent(): void {
-    this.events.push({
-      title: 'Hello new event',
-      subtitle: 'Dynamically update the wiew',
-      date: new Date()
-    })
+    this.router.navigate(['add-event'])
   }
 
   public updateShowAll($event): void {
