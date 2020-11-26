@@ -1,1 +1,44 @@
-<p>add-event works!</p>
+<form [formGroup]="addEventForm" (ngSubmit)="onSubmit()">
+    <div>
+        <input 
+            type="text" 
+            formControlName="title"
+            placeholder="Evénement"
+        >
+        <div class="error" *ngIf="title.touched && title.invalid">
+            <div *ngIf="title.errors?.required">
+                Le titre est obligatoire
+            </div>
+            <div *ngIf="title.errors?.minlength">
+                Le titre doit avoir au moins 5 caractères
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <input
+            type="text"
+            formControlName="subtitle"
+            placeholder="Description"
+        >
+    </div>
+
+    <div>
+        <input 
+            type="date"
+            formControlName="date"
+        >
+        <div class="error" *ngIf="date.touched && date.invalid">
+            La date est obligatoire
+        </div>
+    </div>
+    <div>
+        <button
+            [disabled]="addEventForm.invalid"
+        >
+            Créer
+        </button>
+    </div>
+</form>
+
+{{ addEventForm.value | json }}
