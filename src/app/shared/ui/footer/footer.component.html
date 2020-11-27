@@ -1,0 +1,4 @@
+<footer>
+    Status : {{ loginStatus }}
+    [ {{ (loginService.loginSource$ | async) ? 'Connected' : 'Disconnected' }}]
+</footer>

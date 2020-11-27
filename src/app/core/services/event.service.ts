@@ -25,4 +25,10 @@ export class EventService {
       event
     )
   }
+
+  public remove(event: EventInterface): Observable<any> {
+    return this.httpClient.delete<EventInterface>(
+      `http://localhost:4200/api/v2/events/${event.id}`
+    )
+  }
 }

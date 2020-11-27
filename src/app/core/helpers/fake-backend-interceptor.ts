@@ -23,6 +23,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             .pipe(dematerialize());
 
         function handleRoute(): Observable<HttpEvent<any>> {
+            const regexp: RegExp = /\/api\/v2\/events\/\d+$/
+            
             switch (true) {
                 case url.endsWith('/api/v2/events') && method === 'GET':
                     return getEvents();
@@ -30,9 +32,9 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                         return addEvent(request);
                 case url.endsWith('/api/v2/events') && method === 'PUT':
                     return updateEvent(request);
-                case url.endsWith('/\/api/v2/events\/\d+$/') && method === 'GET':
+                case regexp.test(url) && method === 'GET':
                     return getEvent();
-                case url.match('/\/api/v2/events\/\d+$/') && method === 'DELETE':
+                case regexp.test(url) && method === 'DELETE':
                     return deleteEvent();
                 default:
                     // pass through any requests not handled above
@@ -50,7 +52,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
             events = events.filter(x => x.id !== idFromUrl());
             localStorage.setItem('events', JSON.stringify(events));
-            return ok();
+            return ok({message: 'event was deleted'});
         }
 
         function getEvent(): Observable<HttpResponse<any>> {

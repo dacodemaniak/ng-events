@@ -15,6 +15,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './shared/ui/material/material.module';
 import { fakeBackendProvider } from './core/helpers/fake-backend-interceptor';
 import { HttpClientModule } from '@angular/common/http';
+import { RemoveEventComponent } from './core/components/remove-event/remove-event.component';
+import { HeaderComponent } from './shared/ui/header/header.component';
+import { FooterComponent } from './shared/ui/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +27,10 @@ import { HttpClientModule } from '@angular/common/http';
     HomeComponent,
     AddEventComponent,
     TimeAgoPipe,
-    HelperDirective
+    HelperDirective,
+    RemoveEventComponent,
+    HeaderComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

@@ -65,6 +65,11 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.router.navigate(['add-event'])
   }
 
+  public removeEvent(event: EventInterface): void {
+    console.log(`Fired ${JSON.stringify(event)}`)
+    this.events.splice(this.events.indexOf(event), 1)
+  }
+
   public updateShowAll($event): void {
     this.showAll = $event
   }
