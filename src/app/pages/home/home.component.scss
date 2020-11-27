@@ -1,0 +1,12 @@
+ul {
+    li {
+        &.event {
+            height: 10vh;
+            background-color: #6e6e6e;
+
+            &.ispast {
+                background-color: brown;
+            }
+        }
+    }
+}

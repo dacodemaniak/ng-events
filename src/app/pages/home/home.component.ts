@@ -1,13 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { EventService } from 'src/app/core/services/event.service';
 import { EventInterface } from './../../core/interfaces/event-interface';
+import * as moment from 'moment'
+import { HttpClient } from '@angular/common/http';
+import { Subscription } from 'rxjs';
+import { map, take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   private pTitle = 'events'
   public subtitle = 'My awesome Angular Application'
 
@@ -15,24 +20,37 @@ export class HomeComponent implements OnInit {
 
   public showAll = false
 
-  public constructor(private router: Router) {}
+  private worldClockSubscription: Subscription
+
+  public today: moment.Moment
+  public today$: any
+
+  public constructor(
+    private router: Router,
+    private eventService: EventService,
+    private httpClient: HttpClient) {}
 
 
   ngOnInit(): void {
-    this.events.push({
-      title: 'Journée 1 : Component and Template',
-      subtitle: 'Components',
-      date: new Date()
-    })
-    this.events.push({
-      title: 'Journée 2 : Directives, Pipes, Routage',
-      subtitle: 'Deeper'
-    })
-    this.events.push({
-      title: 'Journée 3 : Service et DI',
-      subtitle: 'Injection de dépendances'
-    })
+    this.events = this.eventService.findAll()
+    
+
+
+    // Let got an observable of the currentTime
+    this.today$ = this.httpClient.get<any>(
+      'http://worldclockapi.com/api/json/utc/now'
+    ).pipe(
+      take(1),
+      map((data) => {
+        return data.currentDateTime
+      })
+    )
   }
+
+  ngOnDestroy() {
+    this.worldClockSubscription.unsubscribe()
+  }
+
   public get title(): string {
     return this.pTitle
   }
@@ -55,5 +73,10 @@ export class HomeComponent implements OnInit {
     }
 
     return this.events.filter((event) => event.date).length
+  }
+
+  public isPast(event: EventInterface): boolean {
+    const today: moment.Moment = moment()
+    return moment(event.date).isBefore(today, 'd')
   }
 }

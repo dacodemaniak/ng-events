@@ -1,18 +1,21 @@
 <form [formGroup]="addEventForm" (ngSubmit)="onSubmit()">
     <div>
-        <input 
-            type="text" 
-            formControlName="title"
-            placeholder="Evénement"
-        >
-        <div class="error" *ngIf="title.touched && title.invalid">
+        <mat-form-field>
+            <input 
+                matInput
+                type="text" 
+                formControlName="title"
+                placeholder="Evénement"
+            >
+        </mat-form-field>
+        <mat-error *ngIf="title.touched && title.invalid">
             <div *ngIf="title.errors?.required">
                 Le titre est obligatoire
             </div>
             <div *ngIf="title.errors?.minlength">
                 Le titre doit avoir au moins 5 caractères
             </div>
-        </div>
+        </mat-error>
     </div>
 
     <div>
