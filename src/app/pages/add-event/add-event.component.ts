@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { EventService } from 'src/app/core/services/event.service';
+import { EventInterface } from 'src/app/core/interfaces/event-interface';
+import { EventService } from './../../core/services/event.service';
 
 @Component({
   selector: 'app-add-event',
@@ -32,10 +33,14 @@ export class AddEventComponent implements OnInit {
   public onSubmit(): void {
     if (this.addEventForm.valid) {
       // My Logic Here !!!
-      this.eventService.add(this.addEventForm.value)
-      this.addEventForm.reset()
-      console.log(`After that : ${JSON.stringify(this.eventService.findAll())}`)
-      this.router.navigate(['home'])
+      this.eventService
+        .add(this.addEventForm.value)
+        .subscribe((newEvent: EventInterface) => {
+          console.log(`Brand new event : ${newEvent}`)
+          this.addEventForm.reset()
+          console.log(`After that : ${JSON.stringify(this.eventService.findAll())}`)
+          this.router.navigate(['home'])
+        })
     }
   }
   

@@ -1,4 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { EventInterface } from '../interfaces/event-interface';
 
 @Injectable({
@@ -7,13 +9,20 @@ import { EventInterface } from '../interfaces/event-interface';
 export class EventService {
   private events: Array<EventInterface> = []
 
-  constructor() { }
+  constructor(
+    private httpClient: HttpClient
+  ) { }
 
-  public findAll(): Array<EventInterface> {
-    return this.events
+  public findAll(): Observable<Array<EventInterface>> {
+    return this.httpClient.get<EventInterface[]>(
+      'http://localhost:4200/api/v2/events'
+    )
   }
   
-  public add(event: EventInterface): void {
-    this.events.push(event)
+  public add(event: EventInterface): Observable<EventInterface> {
+    return this.httpClient.post<EventInterface>(
+      'http://localhost:4200/api/v2/events',
+      event
+    )
   }
 }

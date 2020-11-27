@@ -12,7 +12,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
   constructor() {}
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         const { url, method, headers, body } = request;
-        console.log(`HttpRequest was intercepted`);
+        console.log(`HttpRequest was intercepted ${url}`);
         // wrap in delayed observable to simulate server api call
         return of(null)
             .pipe(mergeMap(handleRoute))
@@ -28,7 +28,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                     return getEvents();
                 case url.endsWith('/api/v2/events') && method === 'POST':
                         return addEvent(request);
-                case url.endsWith('/api/v2/events') && method === 'POST':
+                case url.endsWith('/api/v2/events') && method === 'PUT':
                     return updateEvent(request);
                 case url.endsWith('/\/api/v2/events\/\d+$/') && method === 'GET':
                     return getEvent();
@@ -60,7 +60,12 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
         function addEvent(request: HttpRequest<any>): Observable<HttpResponse<any>> {
             const event: EventInterface = request.body
+            event.id = events.length + 1
             events.push(event)
+            // Update local database
+            localStorage.setItem('events', JSON.stringify(events))
+
+            // Return an observable of the brand new event
             return ok(event)
         }
 

@@ -32,7 +32,11 @@ export class HomeComponent implements OnInit, OnDestroy {
 
 
   ngOnInit(): void {
-    this.events = this.eventService.findAll()
+    this.eventService.findAll()
+      .subscribe((datas) => {
+        this.events = datas
+        console.log(datas)
+      })
     
 
 
@@ -47,9 +51,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     )
   }
 
-  ngOnDestroy() {
-    this.worldClockSubscription.unsubscribe()
-  }
+  ngOnDestroy() {}
 
   public get title(): string {
     return this.pTitle

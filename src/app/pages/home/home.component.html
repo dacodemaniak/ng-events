@@ -13,12 +13,9 @@
     <app-event-filter-bar [displayedEvents]="displayedEvents()" [eventsNumber]="events.length" (buttonClickEvent)="updateShowAll($event)"></app-event-filter-bar>
     
     <h2>Liste des événements</h2>
-    
-    
-    
     <ul>
         <ng-container *ngFor="let event of events">
-          <li appHelper [ngClass]="{event: true, ispast: isPast(event)}" *ngIf="event.date || showAll">
+            <li appHelper [event]="event" [ngClass]="{event: true, ispast: isPast(event)}" *ngIf="event.date || showAll">
               {{ event.title }} {{ event.date | amTimeAgo }}
           </li>
         </ng-container>
