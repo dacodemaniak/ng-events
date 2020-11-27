@@ -74,7 +74,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       return this.events.length
     }
 
-    return this.events.filter((event) => event.date).length
+    return this.events.filter((event) => !this.isPast(event)).length
   }
 
   public isPast(event: EventInterface): boolean {
